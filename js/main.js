@@ -1,58 +1,104 @@
 /*----- constants -----*/
-const SQUAREBOARD = ["yellow", "red", "blue", "green"]
-const SQAURECOLORS = {
-    yellow: "255, 255, 0, 50%", 
-    red: "255, 0, 0, 50%",
-    blue: "0, 0, 255, 50%", 
-    green: "0, 128, 0, 50%"
-}
-const AUDIO = {
-    yellow: "http://www.freesound.org/data/previews/42/42106_70164-lq.mp3",
-    red: "http://www.freesound.org/data/previews/58/58277_634166-lq.mp3",
-    blue: "http://www.freesound.org/data/previews/327/327666_5632380-lq.mp3",
-    green: "http://www.freesound.org/data/previews/336/336899_4939433-lq.mp3"
-}
+const COLORS = ["yellow", "red", "blue", "green"]
+
 /*----- state variables -----*/
+
+
 let gameSequence 
 let playerSequence 
-// let gameMove 
+let level
 let winner 
-
+let box 
+let color 
 /*----- cached elements  -----*/
-const startBtn = document.getElementById("start-button")
-const playAgainBtn = document.getElementById("play-again-button")
+const startBtn = document.getElementById("start-btn")
+const info = document.querySelector(".info")
 const roundCounter = document.getElementById("round-counter")
 
+const yellowBox = document.getElementById("yellow")
+const redBox = document.getElementById("red")
+const greenBox = document.getElementById("green")
+const blueBox = document.getElementById("blue")
+
+const boxes = {
+    yellow: yellowBox, 
+    red: redBox, 
+    blue: blueBox, 
+    green: greenBox
+}
+
+
 /*----- event listeners -----*/
-// document.getElementsByClassName("square-container").addEventListener('click', handleDrop) 
-playAgainBtn.addEventListener("click", init)
+startBtn.addEventListener("click", init)
 
 /*----- functions -----*/
+
+
 init() 
 
 function init() {
     gameSequence = [], 
     playerSequence = [], 
-    winner = null 
+    level = 0,
+    winner = null; 
+    randomSequence(); 
 
-    // render()
 }
 
-function gameMove() {
-    let gameSequence = [];
-    let gameSeqArrayLength = 10;
-    for (let i = 0; i < gameSeqArrayLength; i++) {
-        let randomIndex = Math.floor(Math.random() * SQUAREBOARD.length); 
-        gameSequence.push(SQUAREBOARD[randomIndex])
-    }
-   let i = 0; 
-   let intervalId = setInterval(function() {
-    console.log(gameSequence[i]); 
-    i++; 
-    if (i >= gameSequence.length) {
-        clearInterval(intervalId);
-    }
-   }, 1000);
-}
 
-gameMove() 
+
+function randomSequence() {
+    for (let i = 0; i < 10; i++) {
+        let randomIndex = Math.floor(Math.random() * 4);
+       gameSequence.push(COLORS[randomIndex]);
+      }
+      
+      let i = 0; 
+         let intervalId = setInterval(function() {
+          console.log(gameSequence[i]); 
+          i++; 
+          if (i >= gameSequence.length) {
+              clearInterval(intervalId);
+          }
+         }, 1000);
+    console.log("this is game Seq", gameSequence)
+} 
+
+
+function nextSequence(currentIndex) {
+    // console.log('this is color array', boxes);
+    console.log('this is currentIndex', currentIndex)
+    color = gameSequence[currentIndex]; 
+    console.log('this is the color', color)
+    box = boxes[color];
+    console.log('this is box before add active', box);
+        box.classList.add("active"); 
+    console.log('this is box after add active', box);
+    setTimeout(() => {
+        // console.log('this is currentIndex', currentIndex)
+        console.log('this is box in settimeout before remove active', box)
+        box.classList.remove("active"); 
+        console.log('this is box in settimeout after remove active', box) 
+    }, 1000)
+    if (currentIndex === gameSequence.length) {
+        console.log("winner"); 
+    } else {
+        setTimeout(nextSequence, 1500, currentIndex+=1)
+    }
+}
+nextSequence(0) 
+
+const squares = document.querySelectorAll(".square")
+
+// squares.forEach(box => {
+//     box.addEventListener("click", e => {
+//         const clickedSquare = e.target.color; 
+//         const correctColor = gameSequence[currentIndex -1];
+//         if (clickedSquare === correctColor) {
+//             nextSequence();
+//         } else {
+//             console.log("failed");
+//             currentIndex = 0;
+//         } 
+//     })
+// })

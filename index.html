@@ -8,22 +8,31 @@
     <link href="css/main.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
-    <main class ="game">
+    <main>
         <header>
             <h1>SIMON</h1>
          </header>
 
-        <section class="square-container">
-            <div class="square-yellow"></div>
-            <div class="square-red"></div>
-            <div class="square-blue"></div>
-            <div class="square-green"></div>
+         <section id="game-container">
+            <div id="yellow" class="square"></div>
+            <div id="red" class="square"></div>
+            <div id="blue" class="square"></div>
+            <div id="green" class="square"></div>
         </section>
-       
-        <div id="round-counter">Round: </div>
-        <button id="start-button">Start</button>
-        <button id="play-again-button">Play Again!</button>
+
+        <footer>
+            <div id="round-counter">Round: </div>
+            <button id="start-btn">Start Game</button>
+            <span class="info hidden info"></span>
+        </footer>
     </main>
+
+    <div class="hidden">
+        <audio src="http://www.freesound.org/data/previews/42/42106_70164-lq.mp3" class="sound-yellow"></audio>
+        <audio src="http://www.freesound.org/data/previews/58/58277_634166-lq.mp3" class="sound-red"></audio>
+        <audio src="http://www.freesound.org/data/previews/327/327666_5632380-lq.mp3" class="sound-blue"></audio>
+        <audio src="http://www.freesound.org/data/previews/336/336899_4939433-lq.mp3" class="sound-green"></audio>
+    </div>
 
 
     <script src="..\js\main.js"></script>

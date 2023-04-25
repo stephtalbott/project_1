@@ -12,47 +12,78 @@ html {
   body { 
     display: flex; 
     justify-content: center;
+    
   }
 
-  .game {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+  .hidden {
+    display: none !important;
   }
 
   h1 {
+    margin-top: 20px;
+    margin-bottom: -30px;
     text-align: center;
     font-size: 20px;
   }
 
-  .square-container {
+  #game-container {
     display: grid;
     grid-template-rows: 150px 150px;
     grid-template-columns: 150px 150px;
-    grid-gap: 20px;
+    grid-gap: 10px;
     position: relative;
-    margin-top: 30px;
-    margin-bottom: 40px;
+    margin-top: 50px;
+    margin-bottom: 40px; 
+   
+
+}
+
+#start-btn {
+    display: inline-block;
+    cursor: pointer;
+}
+
+.square {
+    cursor: pointer;
+}
+
+#yellow {
+    background-color: rgb(255, 255, 0);
+}
+
+#yellow:hover {
+  background-color: white;
+}
+
+#red {
+    background-color: rgb(255, 0, 0);
+}
+
+#red:hover {
+  background-color: white;
+}
+
+#blue {
+    background-color: rgb(0, 0, 255);
+}
+
+#blue:hover {
+    background-color: white;
   }
 
-  .square-yellow {
-    background-color: rgba(255, 255, 0, 50%);
+#green {
+    background-color: rgb(0, 128, 0);
+  
+}
+#green:hover {
+    background-color: white;
   }
 
-  .square-red {
-    background-color: rgba(255, 0, 0, 50%);
-  }
-
-  .square-blue {
-    background-color: rgba(0, 0, 255, 50%);
-  }
-  .square-green {
-    background-color: rgba(0, 128, 0, 50%);
-    
-  }
+.active {
+    background-color: white;
+}
 
   .round-counter {
     text-align: right;
     margin-bottom: auto;
-  }
+  } 
