@@ -43,12 +43,11 @@ html {
     cursor: pointer;
 }
 
-.square {
-    cursor: pointer;
-}
+
 
 #yellow {
     background-color: rgb(255, 255, 0);
+    cursor: pointer;
 }
 
 #yellow:hover {
@@ -57,6 +56,7 @@ html {
 
 #red {
     background-color: rgb(255, 0, 0);
+    cursor: pointer;
 }
 
 #red:hover {
@@ -65,6 +65,7 @@ html {
 
 #blue {
     background-color: rgb(0, 0, 255);
+    cursor: pointer;
 }
 
 #blue:hover {
@@ -73,6 +74,7 @@ html {
 
 #green {
     background-color: rgb(0, 128, 0);
+    cursor: pointer;
   
 }
 #green:hover {
@@ -80,7 +82,7 @@ html {
   }
 
 .active {
-    background-color: white;
+    background-color: white !important;
 }
 
   .round-counter {

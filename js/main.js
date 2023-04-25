@@ -1,5 +1,5 @@
 /*----- constants -----*/
-const COLORS = ["yellow", "red", "blue", "green"]
+const COLORS = ["yellow", "red", "green", "blue"]
 
 /*----- state variables -----*/
 
@@ -15,22 +15,24 @@ const startBtn = document.getElementById("start-btn")
 const info = document.querySelector(".info")
 const roundCounter = document.getElementById("round-counter")
 
-const yellowBox = document.getElementById("yellow")
-const redBox = document.getElementById("red")
-const greenBox = document.getElementById("green")
-const blueBox = document.getElementById("blue")
+
+const sounds = {
+    "yellow": new Audio("http://www.freesound.org/data/previews/42/42106_70164-lq.mp3"),
+    "red": new Audio("http://www.freesound.org/data/previews/58/58277_634166-lq.mp3"),
+    "green": new Audio("http://www.freesound.org/data/previews/336/336899_4939433-lq.mp3"), 
+    "blue": new Audio("http://www.freesound.org/data/previews/327/327666_5632380-lq.mp3")
+}
 
 const boxes = {
-    yellow: yellowBox, 
-    red: redBox, 
-    blue: blueBox, 
-    green: greenBox
+    "yellow": document.getElementById("yellow"), 
+    "red": document.getElementById("red"),
+    "green": document.getElementById("green"),
+    "blue": document.getElementById("blue")
 }
 
 
 /*----- event listeners -----*/
 startBtn.addEventListener("click", init)
-
 /*----- functions -----*/
 
 
@@ -65,12 +67,14 @@ function randomSequence() {
 } 
 
 
+
 function nextSequence(currentIndex) {
-    // console.log('this is color array', boxes);
     console.log('this is currentIndex', currentIndex)
-    color = gameSequence[currentIndex]; 
+    const color = gameSequence[currentIndex]; 
     console.log('this is the color', color)
-    box = boxes[color];
+    const box = boxes[color];
+    
+    
     console.log('this is box before add active', box);
         box.classList.add("active"); 
     console.log('this is box after add active', box);
@@ -80,7 +84,7 @@ function nextSequence(currentIndex) {
         box.classList.remove("active"); 
         console.log('this is box in settimeout after remove active', box) 
     }, 1000)
-    if (currentIndex === gameSequence.length) {
+    if (currentIndex === gameSequence.length-1) {
         console.log("winner"); 
     } else {
         setTimeout(nextSequence, 1500, currentIndex+=1)
@@ -90,15 +94,18 @@ nextSequence(0)
 
 const squares = document.querySelectorAll(".square")
 
-// squares.forEach(box => {
-//     box.addEventListener("click", e => {
-//         const clickedSquare = e.target.color; 
-//         const correctColor = gameSequence[currentIndex -1];
-//         if (clickedSquare === correctColor) {
-//             nextSequence();
-//         } else {
-//             console.log("failed");
-//             currentIndex = 0;
-//         } 
-//     })
-// })
+squares.forEach(box => {
+    box.addEventListener("click", e => {
+        const clickedSquare = e.target.color; 
+        const correctColor = gameSequence[currentIndex -1];
+        if (clickedSquare === correctColor) {
+            nextSequence();
+        } else {
+            console.log("failed");
+            currentIndex = 0;
+        } 
+    })
+})
+
+
+
