@@ -43,7 +43,8 @@ function init() {
 // this uses the random sequence to start the first round
 function startGame() {
     startBtn.classList.add("hidden");
-    info.classList.add("hidden");
+    info.classList.remove("hidden");
+    info.textContent = "wait for the computer";
     randomSequence();
     playRound(0);
 }
@@ -57,10 +58,10 @@ function startGame() {
 
 // this generates a 10-value random sequence to be displayed by the computer
 function randomSequence() {
-  for (let i = 0; i < turn; i++) {
+//   for (let i = 0; i < 10; i++) {
   let randomIndex = Math.floor(Math.random() * 4);
   gameSequence.push(COLORS[randomIndex]);
-  }
+  //}
     let i = 0;
     let intervalId = setInterval(function () {
       //   console.log(gameSequence[i]);
@@ -72,7 +73,7 @@ function randomSequence() {
     //   clearInterval(intervalId);
     // }
     }, 1000);
-  console.log("this is game Seq", gameSequence);
+  console.log("this is game Seq in randomSequence()", gameSequence);
 }
 
 
@@ -86,7 +87,7 @@ function playRound(currentIndex) {
     setTimeout(() => {
     console.log('this is currentIndex', currentIndex)
     box.classList.remove("active");
-    if (currentIndex === gameSequence.length - 1) {
+    if (currentIndex === playerSequence.length) {
       console.log("correct");
     } else {
       setTimeout(playRound, 1500, (currentIndex += 1));
@@ -97,36 +98,70 @@ function playRound(currentIndex) {
 
 
 
-
 // this listens for a user click to flash/play the appropriate audio 
-// and stores each click in the playerSeq array
+// and stores each click in the playerSeq array but dang this is long and hard to manipulate :( 
+// function userClick() {
+//   const squares = document.querySelectorAll(".square");
+//   squares.forEach((box) => {
+//     box.addEventListener("click", (e) => {
+//       const auId = box.getAttribute("data-box");
+//       playAudio(auId);
+//       playerSequence.push(e.target.id);
+//       turn += 1;
+//       console.log("playerSeq", playerSequence);
+//       console.log("gameSeq", gameSequence);
+//       if (gameSequence.length === playerSequence.length) {
+//         randomSequence();
+//       }
+//       const clickedSquare = e.target.id;
+//     //   console.log("this is clickedSquare", clickedSquare);
+//       let currentIndex = 0;
+//       const correctColor = gameSequence[currentIndex];
+//     //   console.log("this is gameSequence[currentIndex]", gameSequence[currentIndex]);
+//       if (clickedSquare === correctColor) {
+//         playRound(currentIndex);
+//       } else {
+//         console.log("failed");
+//         currentIndex = 0;
+//       }
+//     });
+//   });
+// }
+
+// tried to break it into smaller functions 
 function userClick() {
   const squares = document.querySelectorAll(".square");
   squares.forEach((box) => {
     box.addEventListener("click", (e) => {
-      const auId = box.getAttribute("data-box");
-      playAudio(auId);
-      playerSequence.push(e.target.id);
-      turn += 1;
-      console.log("PlayerSeq", playerSequence);
-      console.log("gameSeq", gameSequence);
-      if (gameSequence.length === playerSequence.length) {
-        randomSequence();
-      }
-      const clickedSquare = e.target.id;
-    //   console.log("this is clickedSquare", clickedSquare);
-      let currentIndex = 0;
-      const correctColor = gameSequence[currentIndex];
-    //   console.log("this is gameSequence[currentIndex]", gameSequence[currentIndex]);
-      if (clickedSquare === correctColor) {
-        playRound(currentIndex);
-      } else {
-        console.log("failed");
-        currentIndex = 0;
-      }
+      handleUserClick(box, e);
     });
   });
 }
+
+function handleUserClick(box, e) {
+  const auId = box.getAttribute("data-box");
+  playAudio(auId);
+  playerSequence.push(e.target.id);
+  turn += 1;
+  console.log("playerSeq", playerSequence);
+  console.log("gameSeq", gameSequence);
+  if (gameSequence.length === playerSequence.length) {
+    randomSequence();
+  }
+  checkUserClick(e.target.id);
+}
+
+function checkUserClick(clickedSquare) {
+  let currentIndex = 0;
+  const correctColor = gameSequence[currentIndex];
+  if (clickedSquare === correctColor) {
+    playRound(currentIndex);
+  } else {
+    console.log("failed");
+    currentIndex = 0;
+  }
+}
+
 // this makes the sounds work for both comp and player 
 function playAudio(id) {
   const audio = document.getElementById(id);
