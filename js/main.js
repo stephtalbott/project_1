@@ -5,12 +5,13 @@ const COLORS = ["yellow", "red", "green", "blue"];
 
 let gameSequence = [];
 let playerSequence = [];
-let level;
-let winner;
+let level = 0;
+let winner 
 let box;
 let color;
 /*----- cached elements  -----*/
 const startBtn = document.getElementById("start-btn");
+const playAgainBtn = document.getElementById("play-again-btn");
 const info = document.querySelector(".info");
 const roundCounter = document.getElementById("round-counter");
 
@@ -37,57 +38,64 @@ const boxes = {
 };
 
 /*----- event listeners -----*/
-startBtn.addEventListener("click", init);
-
+startBtn.addEventListener("click", startGame);
+// playAgainBtn.addEventListener("click", )
 /*----- functions -----*/
 
 init();
 
 function init() {
-  (gameSequence = []), (playerSequence = []), (level = 0), (winner = null);
-  startBtn.classList.add("hidden");
+  playAgainBtn.classList.add("hidden");
   info.classList.remove("hidden");
-  info.textContent = "wait for the game";
-  randomSequence();
+  info.textContent = "press start to begin!";
+}
+
+function startGame() {
+    startBtn.classList.add("hidden");
+    info.classList.add("hidden");
+    randomSequence();
+    playRound(0);
+}
+
+function nextRound() {
+    level += 1; 
+    const nextInSequence = Array.from(gameSequence); 
+    nextInSequence.push(randomSequence()); 
 }
 
 function randomSequence() {
-  //   for (let i = 0; i < 10; i++) {
-  //     let randomIndex = Math.floor(Math.random() * 4);
-  //     gameSequence.push(COLORS[randomIndex]);
-  //   }
+  for (let i = 0; i < 10; i++) {
   let randomIndex = Math.floor(Math.random() * 4);
   gameSequence.push(COLORS[randomIndex]);
-
-  //   let i = 0;
-  //   let intervalId = setInterval(function () {
-  //     //   console.log(gameSequence[i]);
-  //     i++;
-  //     if (i >= gameSequence.length) {
-  //       clearInterval(intervalId);
-  //     }
-  //   }, 1000);
+  }
+    let i = 0;
+    let intervalId = setInterval(function () {
+      //   console.log(gameSequence[i]);
+      i++;
+      if (i >= gameSequence.length) {
+        clearInterval(intervalId);
+      }
+    }, 1000);
   console.log("this is game Seq", gameSequence);
 }
 
-function nextSequence(currentIndex) {
+function playRound(currentIndex) {
   const color = gameSequence[currentIndex];
-
   const box = boxes[color];
-
   box.classList.add("active");
-
+  const auId = box.getAttribute("data-box");
+  playAudio(auId);
   setTimeout(() => {
     // console.log('this is currentIndex', currentIndex)
     box.classList.remove("active");
+    if (currentIndex === gameSequence.length - 1) {
+      console.log("winner");
+    } else {
+      setTimeout(playRound, 1500, (currentIndex += 1));
+    }
   }, 1000);
-  if (currentIndex === gameSequence.length - 1) {
-    console.log("winner");
-  } else {
-    setTimeout(nextSequence, 1500, (currentIndex += 1));
-  }
+  
 }
-// nextSequence(0)
 
 const squares = document.querySelectorAll(".square");
 squares.forEach((box) => {
@@ -95,15 +103,17 @@ squares.forEach((box) => {
     const auId = box.getAttribute("data-box");
     playAudio(auId);
     playerSequence.push(e.target.id);
+
+    console.log("PlayerSeq", playerSequence);
+    console.log("gameSeq", gameSequence);
     if (gameSequence.length === playerSequence.length) {
-      console.log("PlayerSeq", playerSequence);
-      console.log("gameSeq", gameSequence);
+      
       randomSequence();
     }
     const clickedSquare = e.target.color;
     // const correctColor = gameSequence[currentIndex -1];
     // if (clickedSquare === correctColor) {
-    //     // nextSequence();
+    //     // playRound();
     // } else {
     //     console.log("failed");
     //     currentIndex = 0;
@@ -115,3 +125,7 @@ function playAudio(id) {
   const audio = document.getElementById(id);
   audio.play();
 }
+
+// to work on next:
+// tracking the users clicks and putting them in an array 
+// making sure the game increments based on guessing a round correctly 
