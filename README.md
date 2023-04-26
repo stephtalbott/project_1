@@ -1,4 +1,4 @@
-# Planning for Simon 
+# The Game of Simon
 
 ## Analyze the App's Functionality 
 Minimal Viable Products
@@ -12,23 +12,6 @@ As a user, I want to...
 - win a game by correctly repeating the pattern 10 times
 - click a "play again" button after losing to try again!
 
-## Overall design and feel 
-
-- clean and minimalistic 
-- yellow square with a laser sound 
-- red square with a cow sound 
-- blue square with a dog sound 
-- green square with a siren sound 
-- font of Quicksand 
-```html 
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Quicksand&display=swap" rel="stylesheet">
-```
-CSS rules are: 
-```css 
-font-family: 'Quicksand', sans-serif;
-``` 
 
 ## Wireframe the UI 
 ![wireframe img](/Screenshot%202023-04-20%20at%2011.20.02%20AM.png)
@@ -37,9 +20,8 @@ font-family: 'Quicksand', sans-serif;
 ## Psuedocode 
 
 1. Define required constants 
-    - a **squareBoard** variable as an array that stores each square 
-    - an **audio** variable as an object that will store the corresponding sound for each square
-    - a **squareColors** variable as an object that stores the corresponding color for each square
+    - a COLORS constant as an array to hold "yellow", "red", "green" and "blue"
+    - a boxes variable as an object to hold the HTML divs for the colored squares
      
 
 2. Define required variables used to track the state of the game 
