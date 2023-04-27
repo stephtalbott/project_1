@@ -2,7 +2,6 @@
 const COLORS = ["yellow", "red", "green", "blue"];
 
 /*----- state variables -----*/
-
 let gameSequence;
 let playerSequence;
 let level;
@@ -14,7 +13,6 @@ const playAgainBtn = document.getElementById("play-again-btn");
 const info = document.querySelector(".info");
 const squares = document.querySelectorAll(".square");
 const levelInfo = document.getElementById("level");
-
 const boxes = {
   yellow: document.getElementById("yellow"),
   red: document.getElementById("red"),
@@ -25,7 +23,6 @@ const boxes = {
 /*----- event listeners -----*/
 startBtn.addEventListener("click", startGame);
 playAgainBtn.addEventListener("click", startGame);
-
 squares.forEach((box) => {
   box.addEventListener("click", (e) => {
     // if canPlayAgain is false, then we don't want to be able to click any squares
@@ -41,7 +38,6 @@ squares.forEach((box) => {
 });
 
 /*----- functions -----*/
-
 init();
 
 // this sets up the game
@@ -86,10 +82,11 @@ function randomSequence() {
     canPlayAgain = false;
     return;
   } else {
+
     // play old the old playerSequence first
     playSquare(oldPlayerSequence, 0);
   }
-
+  
   setTimeout(() => {
     let box = document.querySelector(`#${randomBox}`);
     box.classList.add("active");
@@ -110,7 +107,6 @@ function randomSequence() {
 // a new random value to repeat per round
 function playSquare(oldPlayerSequence, i) {
   if (i === oldPlayerSequence.length) return;
-
   let el = oldPlayerSequence[i];
   let box = document.querySelector(`#${el}`);
   box.classList.add("active");
