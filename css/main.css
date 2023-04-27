@@ -51,7 +51,7 @@ html {
 }
 
 #yellow:hover {
-  background-color: white;
+  background-color: grey;
 }
 
 #red {
@@ -60,7 +60,7 @@ html {
 }
 
 #red:hover {
-  background-color: white;
+  background-color: grey;
 }
 
 #blue {
@@ -69,7 +69,7 @@ html {
 }
 
 #blue:hover {
-    background-color: white;
+    background-color: grey;
   }
 
 #green {
@@ -78,7 +78,7 @@ html {
   
 }
 #green:hover {
-    background-color: white;
+    background-color: grey;
   }
 
 .active {

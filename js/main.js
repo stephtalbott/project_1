@@ -11,6 +11,8 @@ let level;
 const startBtn = document.getElementById("start-btn");
 const playAgainBtn = document.getElementById("play-again-btn");
 const info = document.querySelector(".info");
+const squares = document.querySelectorAll(".square");
+const levelInfo = document.getElementById("level");
 
 const boxes = {
   yellow: document.getElementById("yellow"),
@@ -22,6 +24,16 @@ const boxes = {
 /*----- event listeners -----*/
 startBtn.addEventListener("click", startGame);
 playAgainBtn.addEventListener("click", startGame);
+squares.forEach((box) => {
+  box.addEventListener("click", (e) => {
+    let userChosenSequence = box.id; // red | yellow | blue ...
+    playerSequence.push(userChosenSequence);
+    const auId = box.getAttribute("data-box");
+    playAudio(auId);
+    playGame(playerSequence.length - 1);
+  });
+});
+
 /*----- functions -----*/
 
 init();
@@ -36,17 +48,21 @@ function init() {
   gameSequence = [];
 }
 
-// this uses the random sequence to start the first round
+// this uses randomSequence() to start the first round
 function startGame() {
   init();
   startBtn.classList.add("hidden");
   info.classList.remove("hidden");
   info.textContent = "wait for the computer";
+  levelInfo.classList.remove("hidden");
+
   randomSequence();
   //   playRound(0);
 }
 
-// this generates a 10-value random sequence to be displayed by the computer
+// this takes the randomly generated sequence from randomBoxFunc() 
+// pushes it into gameSequence array, increments the level, establishes playerSeq as an empty array 
+// calls playSquare to see the repeated old sequence, and then plays the newly generated random value 
 function randomSequence() {
   let oldPlayerSequence = playerSequence;
   playerSequence = [];
@@ -55,10 +71,17 @@ function randomSequence() {
   let randomBox = randomBoxFunc();
   gameSequence.push(randomBox);
 
-  // play old records first
-  //playOld(oldPlayerSequence);
-
-  playSquare(oldPlayerSequence, 0);
+  // play old the old playerSequence first
+    if (oldPlayerSequence.length === 5 && gameSequence.length === 6) {
+      info.textContent = "you win! congrats!";
+      playAgainBtn.classList.remove("hidden");
+      startBtn.classList.add("hidden");
+    levelInfo.classList.add("hidden");
+      return;
+    } else {
+    
+    playSquare(oldPlayerSequence, 0); 
+    }
 
   setTimeout(() => {
     let box = document.querySelector(`#${randomBox}`);
@@ -67,11 +90,24 @@ function randomSequence() {
     playAudio(auId); // play new record
     setTimeout(() => {
       box.classList.remove("active");
+      //   if (oldPlayerSequence.length === 3 && gameSequence.length === 4) {
+      //     info.textContent = "you win! congrats!";
+      //     playAgainBtn.classList.remove("hidden");
+      //     startBtn.classList.add("hidden");
+      //     return;
+      //   } else {
       info.textContent = "your turn";
+      //   }
     }, 500);
   }, gameSequence.length * 500);
+  console.log("this is gameSequence", gameSequence);
+  console.log("this is playerSequence", playerSequence);
+  console.log("this is oldPlayerSequence", oldPlayerSequence);
+  console.log("this is level", level);
 }
 
+// this takes the oldPlayerSequence and loops through it to show the entire sequence before adding 
+// a new random value to repeat per round 
 function playSquare(oldPlayerSequence, i) {
   if (i === oldPlayerSequence.length) return;
 
@@ -89,16 +125,8 @@ function playSquare(oldPlayerSequence, i) {
   }, 500);
 }
 
-const squares = document.querySelectorAll(".square");
-squares.forEach((box) => {
-  box.addEventListener("click", (e) => {
-    let userChosenSequence = box.id; // red | yellow | blue ...
-    playerSequence.push(userChosenSequence);
-    const auId = box.getAttribute("data-box");
-    playAudio(auId);
-    playGame(playerSequence.length - 1);
-  });
-});
+
+
 
 function playGame(currentLevel) {
   if (gameSequence[currentLevel] === playerSequence[currentLevel]) {
@@ -124,7 +152,8 @@ function playAudio(id) {
   const audio = document.getElementById(id);
   audio.play();
 }
-
+// this makes sure that no values are repeated in order 
+// when generating the random gameSequence array
 function randomBoxFunc() {
   let randomIndex = Math.floor(Math.random() * 4);
   let randomBox = COLORS[randomIndex]; // red | yellow | blue ...
@@ -134,6 +163,4 @@ function randomBoxFunc() {
   return randomBox;
 }
 
-// to work on next:
-// tracking the users clicks and putting them in an array
-// making sure the game increments based on guessing a round correctly
+
