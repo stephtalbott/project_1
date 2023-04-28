@@ -59,7 +59,6 @@ function startGame() {
   info.classList.remove("hidden");
   info.textContent = "wait for the computer";
   levelInfo.classList.remove("hidden");
-
   randomSequence();
 }
 
@@ -73,7 +72,6 @@ function randomSequence() {
   document.getElementById("level").innerHTML = level;
   let randomBox = randomBoxFunc();
   gameSequence.push(randomBox);
-
   if (oldPlayerSequence.length === 5 && gameSequence.length === 6) {
     info.textContent = "you win! congrats!";
     playAgainBtn.classList.remove("hidden");
@@ -82,25 +80,19 @@ function randomSequence() {
     canPlayAgain = false;
     return;
   } else {
-
     // play old the old playerSequence first
     playSquare(oldPlayerSequence, 0);
   }
-  
   setTimeout(() => {
     let box = document.querySelector(`#${randomBox}`);
     box.classList.add("active");
     const auId = box.getAttribute("data-box");
-    playAudio(auId); // play new record
+    playAudio(auId); // play new random string from COLORS
     setTimeout(() => {
       box.classList.remove("active");
       info.textContent = "your turn";
     }, 500);
   }, gameSequence.length * 500);
-  console.log("this is gameSequence", gameSequence);
-  console.log("this is playerSequence", playerSequence);
-  console.log("this is oldPlayerSequence", oldPlayerSequence);
-  console.log("this is level", level);
 }
 
 // this takes the oldPlayerSequence and loops through it to show the entire sequence before adding
@@ -115,7 +107,6 @@ function playSquare(oldPlayerSequence, i) {
   setTimeout(() => {
     box.classList.remove("active");
   }, 500);
-
   setTimeout(() => {
     return playSquare(oldPlayerSequence, i + 1);
   }, 500);
@@ -153,9 +144,9 @@ function playAudio(id) {
 // this makes sure that no values are repeated in order
 // when generating the random gameSequence array
 function randomBoxFunc() {
-  let randomIndex = Math.floor(Math.random() * 4);
+  let randomIndex = Math.floor(Math.random() * COLORS.length);
   let randomBox = COLORS[randomIndex]; // red | yellow | blue ...
-  // if the previous color in randomBox = the next randomly generated color,
+  // if the previous color in gameSequence = the next randomly generated color,
   // run the randomBoxFunc() again until a different color is generated.
   if (gameSequence[gameSequence.length - 1] === randomBox) {
     randomBox = randomBoxFunc();
