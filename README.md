@@ -26,7 +26,7 @@ Winning the Game
 
 ## Getting Started
 
-Game can be accessed at https://stephtalbott.github.io/project_1/
+Game can be accessed at https://stephtalbott.github.io/simon/
 
 1. Press the Start Game button to get started.
 2. Watch and listen closely for the first square of the sequence to play.
